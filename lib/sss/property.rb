@@ -23,7 +23,9 @@ module SSS
     end
 
     def to_css(parent_context = nil)
-      "#{@name}: #{@values.join(' ')};"
+      return "" if !name && !values
+
+      "#{@name}: #{@values.join(' ')};" if name && values
     end
   end
 end
