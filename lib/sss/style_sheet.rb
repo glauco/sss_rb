@@ -21,6 +21,8 @@ module SSS
     end
 
     def to_css
+      return "" if !@rules
+
       @rules.map do |rule|
         rule.to_css
       end.join
