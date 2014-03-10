@@ -1,23 +1,29 @@
-class StyleSheet
-  attr_reader :rules
+#
+# style_sheet.rb
+#
+#   Copyright (c) 2014 Glauco Vinicius <gl4uc0@gmail.com>
+#
+#   This program is free software.
+#   You can distribute/modify this program under the terms of
+#   the GNU Lesser General Public License version 2 or later.
+#
 
-  def initialize(rules)
-    @rules = rules
-  end
+module SSS
+  class StyleSheet
+    attr_reader :rules
 
-  def ==(other)
-    @rules == other.rules
-  end
+    def initialize(rules)
+      @rules = rules
+    end
 
-  def to_s
-    @rules.map do |rule|
-      rule.to_s + '\n'
+    def ==(other)
+      @rules == other.rules
+    end
+
+    def to_css
+      @rules.map do |rule|
+        rule.to_css
+      end.join
     end
   end
-
-  def to_css
-    @rules.map do |rule|
-      rule.to_css()
-    end.join("\n ")
-  end
-end 
+end

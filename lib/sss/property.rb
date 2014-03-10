@@ -1,21 +1,29 @@
-class Property
-  attr_reader :name, :values
+#
+# property.rb
+#
+#   Copyright (c) 2014 Glauco Vinicius <gl4uc0@gmail.com>
+#
+#   This program is free software.
+#   You can distribute/modify this program under the terms of
+#   the GNU Lesser General Public License version 2 or later.
+#
 
-  def initialize(name, values)
-    @name = name
-    @values = values
-  end
+module SSS
+  class Property
+    attr_reader :name, :values
 
-  def ==(other)
-    @name == other.name &&
-      @values == other.values
-  end
+    def initialize(name, values)
+      @name = name
+      @values = values
+    end
 
-  def to_s
-    "name: #{@name} values: #{@values}"
-  end
+    def ==(other)
+      @name == other.name &&
+        @values == other.values
+    end
 
-  def to_css
-    "#{@name}: #{@values.join(' ')};"
+    def to_css(parent_context = nil)
+      "#{@name}: #{@values.join(' ')};"
+    end
   end
 end
