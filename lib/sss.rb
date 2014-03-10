@@ -8,11 +8,11 @@
 #   the GNU Lesser General Public License version 2 or later.
 #
 
-require 'sss/context.rb'
+require 'sss/context'
 require 'sss/parser.tab'
-require 'sss/property.rb'
-require 'sss/rule.rb'
-require 'sss/style_sheet.rb'
+require 'sss/property'
+require 'sss/rule'
+require 'sss/style_sheet'
 require 'sss/version'
 
 module SSS
