@@ -17,16 +17,16 @@ module SSS
       @parent = parent
     end
 
+    def selector
+      selectors.join(' ')
+    end
+
     def selectors
       selectors = []
       selectors = @parent.selectors if @parent
       selectors.push(@rule.selector) if @rule
 
       selectors
-    end
-
-    def selector
-      selectors.join(' ')
     end
   end
 end

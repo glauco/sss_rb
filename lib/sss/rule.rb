@@ -19,19 +19,8 @@ module SSS
       @declarations = declarations
     end
 
-    def ==(other)
-      properties = @declarations.select { |d| d.is_a?(Property) }
-      rules = @declarations.select { |d| d.is_a?(Rule) }
-
-      other_properties = other.declarations.select { |d| d.is_a?(Property) }
-      other_rules = other.declarations.select { |d| d.is_a?(Rule) }
-
-      @selector == other.selector &&
-        properties == other_properties &&
-        rules == other_rules
-    end
-
     def to_css(parent_context = nil)
+      return "" if !@selector && !@declarations
       context = Context.new(self, parent_context)
 
       properties = @declarations.select { |d| d.is_a?(Property) }

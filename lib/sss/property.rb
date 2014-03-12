@@ -16,12 +16,7 @@ module SSS
       @name = name
       @values = values
     end
-
-    def ==(other)
-      @name == other.name &&
-        @values == other.values
-    end
-
+ 
     def to_css(parent_context = nil)
       return "" if !name && !values
 

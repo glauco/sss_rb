@@ -1,4 +1,4 @@
 sss_rb
 ======
 
-The SSS project ported to Ruby
+The [SSS](https://github.com/codedinc/sss) project ported to Ruby

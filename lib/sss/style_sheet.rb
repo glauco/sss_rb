@@ -16,10 +16,6 @@ module SSS
       @rules = rules
     end
 
-    def ==(other)
-      @rules == other.rules
-    end
-
     def to_css
       return "" if !@rules
 
