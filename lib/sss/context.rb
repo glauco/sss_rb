@@ -10,11 +10,12 @@
 
 module SSS
   class Context
-    attr_accessor :rule, :parent
+    attr_accessor :rule, :parent, :variables
 
-    def initialize(rule, parent = nil)
+    def initialize(rule = nil, parent = nil)
       @rule = rule
       @parent = parent
+      @variables = {}
     end
 
     def selector
@@ -27,6 +28,17 @@ module SSS
       selectors.push(@rule.selector) if @rule
 
       selectors
+    end
+
+    def set(name, value)
+      @variables[name] = value
+    end
+
+    def get(name)
+      return @variables[name] if @variables.has_key?(name)
+      return @parent.get(name) if @parent
+
+      raise "undeclared variable #{name}"
     end
   end
 end

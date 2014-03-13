@@ -10,18 +10,25 @@
 
 module SSS
   class StyleSheet
-    attr_reader :rules
+   attr_reader :statements
 
-    def initialize(rules)
-      @rules = rules
+    def initialize(statements)
+      @statements = statements
     end
 
     def to_css
-      return "" if !@rules
+      return "" if !@statements
 
-      @rules.map do |rule|
-        rule.to_css
-      end.join
+      context = SSS::Context.new
+
+      @statements
+        .map do |statement|
+          statement.to_css(context)
+        end
+        .reject do |statement|
+          !statement
+        end
+        .join
     end
   end
 end

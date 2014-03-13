@@ -12,11 +12,14 @@ module SSS
 class Parser
 macro
   BLANK                 \s+
+  COMMENTS              \/\/.*
   DIGIT                 [0-9]
   NUMBER                {DIGIT}+(\.{DIGIT}+)? # matches: 10 and 3.14
   NAME                  [a-zA-Z][\w\-]* # matches: body, background-color and myClassName
   SELECTOR              (\.|\#|\:\:|\:){NAME} # matches: #id, .class, :hover and ::before
 rule
+  {COMMENTS}            # ignores comments
+
   {BLANK}               # ignores spaces, line breaks
 
   # Numbers
@@ -24,10 +27,21 @@ rule
   {NUMBER}              { [:NUMBER, text] } # 0
   \#[0-9A-Fa-f]{3,6}    { [:COLOR, text] } # #fff, #f0f0f0
 
+  # Strings
+  \"[^"]*\"             { [:STRING, text] }
+  \'[^']*\'             { [:STRING, text] }
+
+  # URI
+  url\([^\)]+\)         { [:URI, text] }  # url(image.jpg)
+
   # Selectors
   {SELECTOR}            { [:SELECTOR, text] } # .class, #id
   {NAME}{SELECTOR}      { [:SELECTOR, text] } # div.class, body#id
 
+  # Variables
+  @{NAME}               { [:VARIABLE, text] } # @variable
+
+  # Identifier
   {NAME}                { [:IDENTIFIER, text] } # body, font-size
 
   .                     { [text, text] } # {, }, +, :, ;

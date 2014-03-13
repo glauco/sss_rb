@@ -12,7 +12,21 @@ class SSS::Parser
 rule
   # Parsing starts here.
   stylesheet:
-    rules                             { return StyleSheet.new(val[0]) }
+    statements                        { return StyleSheet.new(val[0]) }
+
+  statements:
+    /* empty */                       { return [] }
+  | statementGroup                    { return val[0] }
+  | statements ';' statementGroup     { return val[0] + val[2] }
+  | statements ';'                    { return val[0] }
+
+  statementGroup:
+    statement                         { return [val[0]] }
+  | rules
+  | rules statement                   { return val[0].push(val[1]) }
+
+  statement:
+    variableDeclaration
 
   rules:
     rule                              { return [val[0]] }
@@ -22,37 +36,55 @@ rule
     selector '{' declarations '}'     { return Rule.new(val[0], val[2]) }
 
   selector: 
-    IDENTIFIER
-  | SELECTOR
+    selectorElement                   { return val[0] }
+  | selector selectorElement          { return val[0] + ' ' + val[1] }
 
+  selectorElement:
+    IDENTIFIER
+  | SELECTOR  
+  
   declarations:
     /* empty */                       { return [] }
   | declarationGroup                  { return val[0] }
   | declarations ';' declarationGroup { return val[0] + val[2] }
-  | declarations';'                   { return val[0] }
+  | declarations ';'                  { return val[0] }
 
   declarationGroup:
-    property                          { return [val[0]] }
+    declaration                       { return [val[0]] }
   | rules
-  | rules property                    { return val[0].push(val[1]) }
+  | rules declaration                 { return val[0].push(val[1]) }
+
+  declaration:
+    property
+  | variableDeclaration  
 
   property:
     IDENTIFIER ':' values             { return Property.new(val[0], val[2]) }
 
+  variableDeclaration:
+    VARIABLE ':' values               { return Assign.new(val[0], val[2]) }
+
   values:
     value                             { return [val[0]] }
   | values value                      { return val[0].push(val[1]) }
+  | values ',' value                  { return val[0].push(val[2]) }
 
   value:
-    IDENTIFIER
-  | COLOR
-  | NUMBER
-  | DIMENSION
+    IDENTIFIER                        { return Literal.new(val[0]) }
+  | COLOR                             { return Literal.new(val[0]) }
+  | NUMBER                            { return Literal.new(val[0]) }
+  | DIMENSION                         { return Literal.new(val[0]) }
+  | STRING                            { return Literal.new(val[0]) }
+  | URI                               { return Literal.new(val[0]) }
+  | VARIABLE                          { return Variable.new(val[0]) }
 end
 ---- header ----
 require_relative 'style_sheet'
 require_relative 'rule'
 require_relative 'property'
 require_relative 'parser.rex'
+require_relative 'literal'
+require_relative 'assign'
+require_relative 'variable'
 ---- inner ----
 ---- footer ----

@@ -17,10 +17,14 @@ module SSS
       @values = values
     end
  
-    def to_css(parent_context = nil)
+    def to_css(context = nil)
       return "" if !name && !values
 
-      "#{@name}: #{@values.join(' ')};" if name && values
+      values_css = @values.map do |value|
+        value.to_css(context)
+      end
+
+      "#{@name}: #{values_css.join(' ')};"
     end
   end
 end

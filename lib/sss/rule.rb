@@ -21,16 +21,24 @@ module SSS
 
     def to_css(parent_context = nil)
       return "" if !@selector && !@declarations
+
+      properties_css = []
+      nested_rules_css = []
       context = Context.new(self, parent_context)
 
-      properties = @declarations.select { |d| d.is_a?(Property) }
-      rules = @declarations.select { |d| d.is_a?(Rule) }
+      @declarations.each do |d|
+        css = d.to_css(context)
 
-      properties_css = properties.map { |p| p.to_css(context) }
-      nested_rules_css = rules.map { |r| r.to_css(context) }
+        if d.is_a?(SSS::Property)
+          properties_css.push(css)
+        elsif d.is_a?(SSS::Rule)
+          nested_rules_css.push(css)
+        end
+      end
 
       ["#{context.selector} { #{properties_css.join(' ')} }"]
-        .push(nested_rules_css).join("\n")
+        .push(nested_rules_css)
+        .join("\n")
     end
   end
 end

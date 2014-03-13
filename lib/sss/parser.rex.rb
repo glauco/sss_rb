@@ -68,6 +68,9 @@ class Parser < Racc::Parser
     token = case @state
     when nil
       case
+      when (text = @ss.scan(/\/\/.*/))
+        ;
+
       when (text = @ss.scan(/\s+/))
         ;
 
@@ -80,11 +83,23 @@ class Parser < Racc::Parser
       when (text = @ss.scan(/\#[0-9A-Fa-f]{3,6}/))
          action { [:COLOR, text] } # #fff, #f0f0f0
 
+      when (text = @ss.scan(/\"[^"]*\"/))
+         action { [:STRING, text] }
+
+      when (text = @ss.scan(/\'[^']*\'/))
+         action { [:STRING, text] }
+
+      when (text = @ss.scan(/url\([^\)]+\)/))
+         action { [:URI, text] }  # url(image.jpg)
+
       when (text = @ss.scan(/(\.|\#|\:\:|\:)[a-zA-Z][\w\-]*/))
          action { [:SELECTOR, text] } # .class, #id
 
       when (text = @ss.scan(/[a-zA-Z][\w\-]*(\.|\#|\:\:|\:)[a-zA-Z][\w\-]*/))
          action { [:SELECTOR, text] } # div.class, body#id
+
+      when (text = @ss.scan(/@[a-zA-Z][\w\-]*/))
+         action { [:VARIABLE, text] } # @variable
 
       when (text = @ss.scan(/[a-zA-Z][\w\-]*/))
          action { [:IDENTIFIER, text] } # body, font-size
