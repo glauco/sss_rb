@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'sss/parser.tab' 
+require 'sss/parser.tab'
 require 'sss/style_sheet'
 require 'sss/rule'
 require 'sss/property'
@@ -59,5 +59,33 @@ describe SSS::Parser do
     ])
 
     style_sheet.should be_same_style_sheet_as expected_style_sheet
+  end
+
+  context "passing file in single quoutes" do
+    it 'should parse @import directives' do
+      import_directive = "#import \"path/to/file.sss\""
+
+      style_sheet = subject.scan_str(import_directive)
+
+      expected_style_sheet = SSS::StyleSheet.new([
+        SSS::Import.new("path/to/file.sss")
+      ])
+
+      style_sheet.should be_same_style_sheet_as expected_style_sheet
+    end
+  end
+
+  context "passing file in single quoutes" do
+    it 'should parse @import directives' do
+      import_directive = "#import \'path/to/file.sss\'"
+
+      style_sheet = subject.scan_str(import_directive)
+
+      expected_style_sheet = SSS::StyleSheet.new([
+        SSS::Import.new("path/to/file.sss")
+      ])
+
+      style_sheet.should be_same_style_sheet_as expected_style_sheet
+    end
   end
 end
