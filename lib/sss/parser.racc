@@ -27,6 +27,10 @@ rule
 
   statement:
     variableDeclaration
+  | importDirective
+
+  importDirective:
+    IMPORT STRING                 { return Import.new(val[1]) }
 
   rules:
     rule                              { return [val[0]] }
@@ -35,14 +39,14 @@ rule
   rule:
     selector '{' declarations '}'     { return Rule.new(val[0], val[2]) }
 
-  selector: 
+  selector:
     selectorElement                   { return val[0] }
   | selector selectorElement          { return val[0] + ' ' + val[1] }
 
   selectorElement:
     IDENTIFIER
-  | SELECTOR  
-  
+  | SELECTOR
+
   declarations:
     /* empty */                       { return [] }
   | declarationGroup                  { return val[0] }
@@ -56,7 +60,7 @@ rule
 
   declaration:
     property
-  | variableDeclaration  
+  | variableDeclaration
 
   property:
     IDENTIFIER ':' values             { return Property.new(val[0], val[2]) }
@@ -86,5 +90,6 @@ require_relative 'parser.rex'
 require_relative 'literal'
 require_relative 'assign'
 require_relative 'variable'
+require_relative 'import'
 ---- inner ----
 ---- footer ----

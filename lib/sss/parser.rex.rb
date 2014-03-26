@@ -92,6 +92,9 @@ class Parser < Racc::Parser
       when (text = @ss.scan(/url\([^\)]+\)/))
          action { [:URI, text] }  # url(image.jpg)
 
+      when (text = @ss.scan(/\#import/))
+         action { [:IMPORT, text] } # @#import 'file.sss'
+
       when (text = @ss.scan(/(\.|\#|\:\:|\:)[a-zA-Z][\w\-]*/))
          action { [:SELECTOR, text] } # .class, #id
 

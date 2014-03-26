@@ -34,6 +34,9 @@ rule
   # URI
   url\([^\)]+\)         { [:URI, text] }  # url(image.jpg)
 
+  # imports
+  \#import               { [:IMPORT, text] } # @#import 'file.sss'
+
   # Selectors
   {SELECTOR}            { [:SELECTOR, text] } # .class, #id
   {NAME}{SELECTOR}      { [:SELECTOR, text] } # div.class, body#id
