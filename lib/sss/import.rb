@@ -1,13 +1,13 @@
 module SSS
   class Import
     def initialize(path)
-      @path = path
+      @path = path.chomp("'").reverse.chomp("'").reverse
     end
 
     def to_css(context)
-      input = File.read(File.expand_path(@path, SSS::BASE_DIR))
-      stylesheet = SSS::Parser.new.scan_str(input)
-      stylesheet.to_css
+      input = File.read(File.expand_path("../../../samples/#{@path}", __FILE__))
+      stylesheet = SSS::Parser.new
+      stylesheet.scan_str(input).to_css
     end
   end
 end
