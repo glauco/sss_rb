@@ -8,12 +8,14 @@
 #   the GNU Lesser General Public License version 2 or later.
 #
 
-require 'sss/context'
-require 'sss/parser.tab'
-require 'sss/property'
-require 'sss/rule'
-require 'sss/style_sheet'
-require 'sss/version'
+ $:.unshift(File.dirname(__FILE__) + '/sss')
+
+require "context"
+require 'parser.tab'
+require 'property'
+require 'rule'
+require 'style_sheet'
+require 'version'
 
 module SSS
 end

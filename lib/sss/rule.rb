@@ -8,7 +8,7 @@
 #   the GNU Lesser General Public License version 2 or later.
 #
 
-require 'sss/context.rb'
+require 'context.rb'
 
 module SSS
   class Rule

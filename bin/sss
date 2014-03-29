@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require './lib/sss'
+#require '../lib/parser'
+require 'io/console'
+file = ARGV[0]
+input = IO.read(file)
+parser = SSS::Parser.new
+
+puts parser.scan_str(input).to_css
