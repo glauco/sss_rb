@@ -8,8 +8,6 @@
 #   the GNU Lesser General Public License version 2 or later.
 #
 
-require 'context.rb'
-
 module SSS
   class Rule
     attr_reader :selector, :declarations

@@ -5,7 +5,7 @@ module SSS
     end
 
     def to_css(context)
-      input = File.read(File.expand_path("../../../samples/#{@path}", __FILE__))
+      input = File.read(File.expand_path("../../../#{@path}", __FILE__))
       stylesheet = SSS::Parser.new
       stylesheet.scan_str(input).to_css
     end
