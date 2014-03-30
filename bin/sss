@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require './lib/sss'
+require '../lib/sss'
 #require '../lib/parser'
 require 'io/console'
 file = ARGV[0]
